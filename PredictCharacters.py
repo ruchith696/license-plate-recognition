@@ -1,8 +1,11 @@
 import SegmentCharacters
 import pickle
+from TrainRecognizeCharacters import *
 print("Loading model")
 filename = './finalized_model.sav'
 model = pickle.load(open(filename, 'rb'))
+# to run CNN model uncomment the commented one
+#model.load_weights('model.h5')
 
 print('Model loaded. Predicting characters of number plate')
 classification_result = []
@@ -10,6 +13,7 @@ for each_character in SegmentCharacters.characters:
     # converts it to a 1D array
     each_character = each_character.reshape(1, -1);
     result = model.predict(each_character)
+    #k =np.argmax(result)
     classification_result.append(result)
 
 print('Classification result')
