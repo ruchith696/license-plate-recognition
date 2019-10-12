@@ -2,10 +2,12 @@
 The idea is to recognise license plate number of a car. 
 
 ## Method
-1.Detect License Plate
-2.Perform segmentation of characters
-3.Train a ML model to predict characters
-4.Prediction of characters in License Plate
+1. Detect License Plate
+2. Perform segmentation of characters
+3. Train a ML model to predict characters
+4. Prediction of characters in License Plate
+
+
 The approach used to segment the images is Connected Component Analysis. Connected regions wil imply that all the connected pixels belong to the same object. A pixel is said to be connected to another if they both have the same value and are adjacent to each other.
 
 Car Image -> Grayscale Image -> Binary Image -> Applying CCA to get connected regions -> Detect license plate out of all connected regions (Assumptions made : width of the license plate region to the full image ranges between 15% and 40% and height of the license plate region to the full image is between 8% & 20%)
