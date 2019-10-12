@@ -5,6 +5,11 @@ from sklearn.model_selection import cross_val_score
 from sklearn.externals import joblib
 from skimage.io import imread
 from skimage.filters import threshold_otsu
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+from sklearn.model_selection import train_test_split
+from keras.utils import to_categorical
+
 
 letters = [
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
@@ -58,24 +63,47 @@ print('reading data completed')
 # the probability was set to True so as to show
 # how sure the model is of it's prediction
 svc_model = SVC(kernel='linear', probability=True)
-
 cross_validation(svc_model, 4, image_data, target_data)
-
 print('training model')
 
 # let's train the model with all the input data
 svc_model.fit(image_data, target_data)
-
-# we will use the joblib module to persist the model
-# into files. This means that the next time we need to
-# predict, we don't need to train the model again
-# save_directory = os.path.join(current_dir, 'models/svc/')
-# if not os.path.exists(save_directory):
-#     os.makedirs(save_directory)
-# joblib.dump(svc_model, save_directory+'/svc.pkl')
 
 import pickle
 print("model trained.saving model..")
 filename = './finalized_model.sav'
 pickle.dump(svc_model, open(filename, 'wb'))
 print("model saved")
+
+# CNN model 
+char_to_ix = { ch:i for i,ch in enumerate((letters)) }
+ix_to_char = { i:ch for i,ch in enumerate((letters)) }
+train_labels=[]
+
+for i in target_data:
+    
+    train_labels.append(char_to_ix[i])
+
+
+model = Sequential([
+  Dense(64, activation='relu'),
+  Dense(34, activation='softmax'),
+])
+
+    
+model.compile(
+  optimizer='adam',
+  loss='categorical_crossentropy',
+  metrics=['accuracy'],
+)
+
+model.fit(
+  image_data,
+  to_categorical(train_labels),
+  epochs=10,
+  batch_size=32,)
+
+model.save_weights('model.h5')
+print('CNN model saved')
+
+
