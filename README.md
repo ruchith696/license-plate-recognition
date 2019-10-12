@@ -14,7 +14,7 @@ Car Image -> Grayscale Image -> Binary Image -> Applying CCA to get connected re
 
 Output of first step is a license plate image detected in a car image. This is provided as input to step2 and CCA is applied on this image to bound the characters in plate.Each character identified is appended into a list.
 
-Model is trained using SVC (4 cross fold validation) and neural network with dataset present in directory train20X20. The model is saved as finalized_model.sav and model.h5 which is then loaded to predict each character.
+Model is trained using SVC (4 cross fold validation) and neural network with dataset present in directory train20X20. The models are saved as finalized_model.sav and model.h5 which is then loaded to predict each character.
 
 Once the characters of plate is obtained and model is trained, the model is loaded in order to predict each character.
 
